@@ -1,4 +1,4 @@
-package identity
+package root
 
 import (
 	"fmt"
@@ -38,4 +38,10 @@ func (a Account) Authenticate(password string) bool {
 
 func (a Account) String() string {
 	return fmt.Sprintf("Account<ID: %v | Email: %v>", a.ID, a.Email)
+}
+
+type IdentityService interface {
+	Register(email string, password string) (account *Account, err error)
+	Login(email string, password string) (token string, err error)
+	Authenticate(token string) (account *Account, err error)
 }

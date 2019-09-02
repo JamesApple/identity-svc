@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"identity/postgres"
 	"log"
 	"os"
+	"root/postgres"
 
 	"github.com/go-pg/migrations"
 )

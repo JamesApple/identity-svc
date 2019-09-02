@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"identity"
+	"root"
 
 	"fmt"
 
@@ -12,12 +12,12 @@ type AccountRepo struct {
 	*sqlx.DB
 }
 
-func (a *AccountRepo) Update(acc *identity.Account) error {
+func (a *AccountRepo) Update(acc *root.Account) error {
 	_, err := a.NamedExec(accountUpdate, acc)
 	return err
 }
 
-func (a *AccountRepo) Create(acc *identity.Account) error {
+func (a *AccountRepo) Create(acc *root.Account) error {
 	statement, err := a.PrepareNamed(accountInsert)
 	if err != nil {
 		return err
@@ -28,7 +28,7 @@ func (a *AccountRepo) Create(acc *identity.Account) error {
 	return err
 }
 
-func (a *AccountRepo) Find(acc *identity.Account) error {
+func (a *AccountRepo) Find(acc *root.Account) error {
 	statement, err := a.PrepareNamed(accountFind)
 	if err != nil {
 		return err
@@ -40,7 +40,7 @@ func (a *AccountRepo) Find(acc *identity.Account) error {
 	return nil
 }
 
-func (a *AccountRepo) FindByEmail(acc *identity.Account) error {
+func (a *AccountRepo) FindByEmail(acc *root.Account) error {
 	statement, err := a.PrepareNamed(accountFindByEmail)
 	if err != nil {
 		return err
@@ -52,7 +52,7 @@ func (a *AccountRepo) FindByEmail(acc *identity.Account) error {
 	return nil
 }
 
-func (a *AccountRepo) EmailAvailable(acc *identity.Account) (available bool, err error) {
+func (a *AccountRepo) EmailAvailable(acc *root.Account) (available bool, err error) {
 	statement, err := a.PrepareNamed(accountEmailAvailable)
 	if err != nil {
 		return

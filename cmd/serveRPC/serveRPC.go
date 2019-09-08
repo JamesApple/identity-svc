@@ -1,23 +1,27 @@
 package main
 
 import (
-	"log"
+	"fmt"
+	"net"
 	"root"
 
-	"github.com/golang/protobuf/proto"
+	"root/rpc"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-	req := &root.AccountRequest{
-		Username: "uid123",
-		Password: "password",
+	server := &rpc.Server{}
+
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", 8081))
+	if err != nil {
+		panic(err)
 	}
-	data, err := proto.Marshal(req)
 
-	log.Print(err)
-	log.Print(string(data))
+	grpcServer := grpc.NewServer()
+	root.RegisterIdentityServer(grpcServer, server)
+	reflection.Register(grpcServer)
 
-	re := &root.AccountRequest{}
-	proto.Unmarshal(data, re)
-	log.Print(re)
+	grpcServer.Serve(listener)
 }
